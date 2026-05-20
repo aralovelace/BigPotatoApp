@@ -1,5 +1,6 @@
 import { Router, Request, Response } from "express";
 import { Game } from "../models/Game";
+import { version } from "node:os";
 
 const router = Router();
 
@@ -21,6 +22,8 @@ router.get('/:gameId', async (req: Request, res: Response) => {
 
     res.json({
         gameId: game.gameId,
+        version: game.version,
+        contentUpdatedAt: game.contentUpdatedAt,
         name: game.name,
         description: game.description,
         playerCount: game.playerCount,

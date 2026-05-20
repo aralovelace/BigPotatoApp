@@ -67,10 +67,17 @@ export default function GameContent({ gameId }: GameContentProps) {
     <div className="w-full bg-white rounded-2xl p-5 sm:p-8 shadow-sm">
       {/* Header */}
       <div className="mb-3">
-        <h2 className="text-2xl sm:text-3xl">{data.name}</h2>
-        <p className="text-base text-black/90 mt-1">{data.description}</p>
+        <div className="flex items-center gap-2 mb-1">
+          <h2 className="text-2xl sm:text-3xl">{data.name}</h2>
+          <span className="text-xs font-bold uppercase tracking-wide rounded-full bg-black text-white px-2 py-0.5 shrink-0">
+            v{data.version}
+          </span>
+        </div>
+        <p className="text-base text-black/90">{data.description}</p>
+        <p className="text-xs text-black/40 mt-1">
+          Last updated {new Date(data.contentUpdatedAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
+        </p>
       </div>
-
       {/* Meta pills */}
       <div className="flex gap-2 mt-3 flex-wrap">
         <span className="text-sm font-medium rounded-full bg-black/10 px-3 py-1 text-black/90">

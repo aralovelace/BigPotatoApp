@@ -8,6 +8,8 @@ const games = [
   {
     gameId: 'the-chameleon',
     qrCode: 'BP-QR-CHAM-001',
+    version: 2,
+    contentUpdatedAt: new Date('2024-09-01'),
     name: 'The Chameleon',
     description:
       'A social bluffing game where one player is secretly the Chameleon. Everyone else knows the topic — can you blend in without getting caught?',
@@ -22,26 +24,10 @@ const games = [
     ],
     timers: { min: 15, max: 20 },
     soundEffects: [
-      {
-        id: 'cham-sfx-reveal',
-        label: 'Chameleon Reveal',
-        url: '/sfx/chameleon/reveal.mp3',
-      },
-      {
-        id: 'cham-sfx-vote',
-        label: 'Voting Start',
-        url: '/sfx/chameleon/vote-start.mp3',
-      },
-      {
-        id: 'cham-sfx-caught',
-        label: 'Chameleon Caught',
-        url: '/sfx/chameleon/caught.mp3',
-      },
-      {
-        id: 'cham-sfx-escaped',
-        label: 'Chameleon Escaped',
-        url: '/sfx/chameleon/escaped.mp3',
-      },
+      { id: 'cham-sfx-reveal', label: 'Chameleon Reveal', url: '/sfx/chameleon/reveal.mp3' },
+      { id: 'cham-sfx-vote', label: 'Voting Start', url: '/sfx/chameleon/vote-start.mp3' },
+      { id: 'cham-sfx-caught', label: 'Chameleon Caught', url: '/sfx/chameleon/caught.mp3' },
+      { id: 'cham-sfx-escaped', label: 'Chameleon Escaped', url: '/sfx/chameleon/escaped.mp3' },
     ],
     scoring: {
       winCondition: 'First player or the Chameleon to reach 5 points wins.',
@@ -52,18 +38,13 @@ const games = [
       {
         id: 'chameleon-expansion-1',
         name: 'The Chameleon Expansion',
-        content:
-          'Adds 40 additional topic cards for extended variety and increased replayability across multiple play sessions.',
+        content: 'Adds 40 additional topic cards for extended variety and increased replayability across multiple play sessions.',
         rules: [
           'Shuffle the expansion topic cards into the existing deck or use them as a standalone set.',
           'All base game rules apply.',
         ],
         soundEffects: [
-          {
-            id: 'cham-exp1-sfx-newcard',
-            label: 'New Topic Reveal',
-            url: '/sfx/chameleon/expansion-1/new-topic.mp3',
-          },
+          { id: 'cham-exp1-sfx-newcard', label: 'New Topic Reveal', url: '/sfx/chameleon/expansion-1/new-topic.mp3' },
         ],
       },
     ],
@@ -71,6 +52,8 @@ const games = [
   {
     gameId: 'herd-mentality',
     qrCode: 'BP-QR-HERD-001',
+    version: 3,
+    contentUpdatedAt: new Date('2025-01-15'),
     name: 'Herd Mentality',
     description:
       'Think like the herd! Write the same answer as everyone else to win cow tokens — but be the odd one out and you get stuck with the dreaded Pink Cow.',
@@ -86,26 +69,10 @@ const games = [
     ],
     timers: { min: 20, max: 30 },
     soundEffects: [
-      {
-        id: 'herd-sfx-reveal',
-        label: 'Answer Reveal',
-        url: '/sfx/herd-mentality/reveal.mp3',
-      },
-      {
-        id: 'herd-sfx-pinkcow',
-        label: 'Pink Cow Penalty',
-        url: '/sfx/herd-mentality/pink-cow.mp3',
-      },
-      {
-        id: 'herd-sfx-token',
-        label: 'Token Collected',
-        url: '/sfx/herd-mentality/token.mp3',
-      },
-      {
-        id: 'herd-sfx-win',
-        label: 'Winner',
-        url: '/sfx/herd-mentality/winner.mp3',
-      },
+      { id: 'herd-sfx-reveal', label: 'Answer Reveal', url: '/sfx/herd-mentality/reveal.mp3' },
+      { id: 'herd-sfx-pinkcow', label: 'Pink Cow Penalty', url: '/sfx/herd-mentality/pink-cow.mp3' },
+      { id: 'herd-sfx-token', label: 'Token Collected', url: '/sfx/herd-mentality/token.mp3' },
+      { id: 'herd-sfx-win', label: 'Winner', url: '/sfx/herd-mentality/winner.mp3' },
     ],
     scoring: {
       winCondition: 'First player to collect 8 cow tokens wins.',
@@ -126,11 +93,7 @@ const games = [
         content: '100 festive-themed questions for holiday play.',
         rules: ['Replace the standard question deck with the Christmas deck.', 'All base game rules apply.'],
         soundEffects: [
-          {
-            id: 'herd-xmas-sfx-jingle',
-            label: 'Jingle',
-            url: '/sfx/herd-mentality/christmas/jingle.mp3',
-          },
+          { id: 'herd-xmas-sfx-jingle', label: 'Jingle', url: '/sfx/herd-mentality/christmas/jingle.mp3' },
         ],
       },
       {
@@ -139,11 +102,7 @@ const games = [
         content: 'Music and movies themed question set for pop culture fans.',
         rules: ['Use the Moosic & Moovies deck in place of or alongside the standard deck.'],
         soundEffects: [
-          {
-            id: 'herd-moosic-sfx-fanfare',
-            label: 'Fanfare',
-            url: '/sfx/herd-mentality/moosic/fanfare.mp3',
-          },
+          { id: 'herd-moosic-sfx-fanfare', label: 'Fanfare', url: '/sfx/herd-mentality/moosic/fanfare.mp3' },
         ],
       },
     ],
@@ -151,6 +110,8 @@ const games = [
   {
     gameId: 'sounds-fishy',
     qrCode: 'BP-QR-FISH-001',
+    version: 1,
+    contentUpdatedAt: new Date('2024-03-10'),
     name: 'Sounds Fishy',
     description:
       'One real answer. A sea of red herrings. Can you spot the truth among the lies — or fool everyone with your bluff?',
@@ -165,26 +126,10 @@ const games = [
     ],
     timers: { min: 15, max: 15 },
     soundEffects: [
-      {
-        id: 'fish-sfx-question',
-        label: 'Question Drawn',
-        url: '/sfx/sounds-fishy/question.mp3',
-      },
-      {
-        id: 'fish-sfx-vote',
-        label: 'Voting Start',
-        url: '/sfx/sounds-fishy/vote-start.mp3',
-      },
-      {
-        id: 'fish-sfx-fooled',
-        label: 'You Got Fooled',
-        url: '/sfx/sounds-fishy/fooled.mp3',
-      },
-      {
-        id: 'fish-sfx-correct',
-        label: 'Correct Answer',
-        url: '/sfx/sounds-fishy/correct.mp3',
-      },
+      { id: 'fish-sfx-question', label: 'Question Drawn', url: '/sfx/sounds-fishy/question.mp3' },
+      { id: 'fish-sfx-vote', label: 'Voting Start', url: '/sfx/sounds-fishy/vote-start.mp3' },
+      { id: 'fish-sfx-fooled', label: 'You Got Fooled', url: '/sfx/sounds-fishy/fooled.mp3' },
+      { id: 'fish-sfx-correct', label: 'Correct Answer', url: '/sfx/sounds-fishy/correct.mp3' },
     ],
     scoring: {
       winCondition: 'Player with the most points after all question cards are used wins.',
@@ -194,8 +139,7 @@ const games = [
       {
         id: 'sounds-fishy-booster',
         name: 'Sounds Fishy Booster Pack',
-        content:
-          'Additional question cards to refresh replayability once the original deck becomes familiar.',
+        content: 'Additional question cards to refresh replayability once the original deck becomes familiar.',
         rules: ['Shuffle booster cards into the main deck or use as a standalone set.'],
         soundEffects: [],
       },

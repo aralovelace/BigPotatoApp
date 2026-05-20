@@ -31,6 +31,8 @@ export interface IGame extends Document {
   soundEffects: ISoundEffect[];
   scoring: IScoring;
   expansions: IExpansion[];
+  version: number;
+  contentUpdatedAt: Date;
 }
 
 const soundEffectSchema = new Schema<ISoundEffect>({
@@ -69,7 +71,9 @@ const gameSchema = new Schema<IGame>(
       method: { type: String, required: true },
     },
     expansions: [expansionSchema],
-  },
+    version: { type: Number, required: true, default: 1 },
+    contentUpdatedAt: { type: Date, required: true, default: Date.now },
+    },
   { timestamps: true }
 );
 
