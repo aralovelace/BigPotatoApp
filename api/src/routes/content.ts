@@ -35,4 +35,32 @@ router.get('/:gameId', async (req: Request, res: Response) => {
 
 });
 
+router.get('/:gameId/expansions/:expansionId', async (req: Request, res: Response) => {
+
+    const { gameId, expansionId } = req.params;
+
+    const game = await Game.findOne({ gameId }).lean();
+
+      if (!game) {
+       res.status(404).json({ error: `No game found for ID: ${gameId}` });
+       return;
+    }
+
+    const expansion = game.expansions.find((e) => e.id === expansionId);
+
+    if (!expansion){
+        res.status(404).json({error: `No expansion for ID ${expansionId}`});
+        return;
+    }
+
+    res.json({
+        id: expansion.id,
+        name: expansion.name,
+        content: expansion.content,
+        rules: expansion.rules ?? [],
+        soundEffects: expansion.soundEffects ?? []
+    });
+
+});
+
 export default router;
