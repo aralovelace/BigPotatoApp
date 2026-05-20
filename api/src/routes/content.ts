@@ -3,6 +3,11 @@ import { Game } from "../models/Game";
 
 const router = Router();
 
+router.get('/', async (_req: Request, res: Response) => {
+  const games = await Game.find({}, 'gameId name description playerCount -_id').lean();
+  res.json(games);
+});
+
 router.get('/:gameId', async (req: Request, res: Response) => {
 
     const { gameId } = req.params;
