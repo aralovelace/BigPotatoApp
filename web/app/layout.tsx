@@ -17,11 +17,10 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-[#FFD700] text-black">
         <Providers>
           <div className="flex flex-col flex-1 items-center">
-            <main className="flex flex-1 w-full max-w-3xl flex-col py-8 px-4 gap-6 sm:py-16 sm:px-8 sm:gap-8">
-              <div className="flex items-center gap-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
+            <main className="flex flex-col py-12 px-4 gap-6 sm:py-16 sm:px-8 sm:gap-8 w-full max-w-2xl">
+              <div className="flex flex-col justify-center items-center gap-2">
                 <img
-                  src="https://bigpotato.co.uk/cdn/shop/files/logo_538dd2fc-091e-47dd-a078-cc4a7ce23c62.png?v=1747324418&width=420"
+                  src="/images/logo.png"
                   alt="Big Potato"
                   className="h-8 w-auto sm:h-10"
                 />
