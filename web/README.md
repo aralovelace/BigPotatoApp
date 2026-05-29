@@ -1,6 +1,6 @@
 # Web
 
-Next.js 16 frontend with TailwindCSS and TanStack Query.
+Next.js 16 frontend for the Big Potato Companion App.
 
 ## Stack
 
@@ -8,7 +8,7 @@ Next.js 16 frontend with TailwindCSS and TanStack Query.
 - **Language**: TypeScript 5
 - **Styling**: TailwindCSS 4
 - **Data fetching**: TanStack Query v5
-- **Fonts**: Geist (via next/font)
+- **Fonts**: Bebas Neue (headings) + Asap Condensed (body) via Google Fonts
 
 ## Scripts
 
@@ -32,34 +32,45 @@ NEXT_PUBLIC_API_URL=http://localhost:3001
 ```
 web/
 ├── app/
-│   ├── layout.tsx      # Root layout with Providers
-│   ├── page.tsx        # Home page
-│   ├── providers.tsx   # TanStack Query client provider
-│   └── globals.css
-├── public/
+│   ├── layout.tsx               # Root layout — branding, shared shell
+│   ├── page.tsx                 # Home — QR scan hero + game list
+│   ├── providers.tsx            # TanStack Query client provider
+│   ├── globals.css              # Google Fonts import, base font sizes
+│   ├── components/
+│   │   ├── GameSelector.tsx     # Fetches and lists all games from API
+│   │   ├── GameContent.tsx      # Tabbed game detail (Rules/Scoring/Sounds/Expansions)
+│   │   ├── ExpansionDetail.tsx  # Single expansion detail view
+│   │   └── SoundButton.tsx      # Interactive sound effect button
+│   └── game/
+│       ├── [gameId]/page.tsx              # /game/:gameId
+│       └── [gameId]/[expansionId]/page.tsx # /game/:gameId/:expansionId
 ├── next.config.ts
-├── tailwind.config.ts
 ├── tsconfig.json
-├── .eslintrc.json
-└── .prettierrc
+└── .env.local
 ```
 
-## TanStack Query
+## Routing
 
-The `QueryClientProvider` is set up in `app/providers.tsx` and wrapped in `app/layout.tsx`. Use `useQuery` and `useMutation` in any client component:
+URL-based navigation using Next.js App Router dynamic segments:
+
+| Route | Component | Description |
+|-------|-----------|-------------|
+| `/` | `GameSelector` | Game list with QR scan hero |
+| `/game/[gameId]` | `GameContent` | Tabbed game detail |
+| `/game/[gameId]/[expansionId]` | `ExpansionDetail` | Expansion rules and sounds |
+
+## Data Fetching
+
+All data is fetched from the API using TanStack Query. Each component manages its own query:
 
 ```tsx
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
 
-export function Example() {
-  const { data } = useQuery({
-    queryKey: ['health'],
-    queryFn: () =>
-      fetch(`${process.env.NEXT_PUBLIC_API_URL}/health`).then((r) => r.json()),
-  });
-
-  return <div>{data?.status}</div>;
-}
+const { data, isLoading, isError } = useQuery({
+  queryKey: ['game', gameId],
+  queryFn: () =>
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/content/${gameId}`).then(r => r.json()),
+});
 ```

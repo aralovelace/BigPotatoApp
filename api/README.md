@@ -1,13 +1,13 @@
 # API
 
-Express 5 + TypeScript backend connected to MongoDB Atlas.
+Express 5 + TypeScript backend for the Big Potato Companion App, connected to MongoDB Atlas.
 
 ## Stack
 
 - **Runtime**: Node.js 22 (via asdf)
 - **Framework**: Express 5
 - **Database**: MongoDB Atlas via Mongoose 9
-- **Language**: TypeScript 6
+- **Language**: TypeScript
 - **Dev server**: Nodemon + ts-node
 
 ## Scripts
@@ -16,6 +16,7 @@ Express 5 + TypeScript backend connected to MongoDB Atlas.
 npm run dev      # Start dev server with hot reload (port 3001)
 npm run build    # Compile TypeScript to dist/
 npm run start    # Run compiled output
+npm run seed     # Seed the database with game data
 ```
 
 ## Environment Variables
@@ -38,17 +39,43 @@ PORT=3001
 ```
 api/
 ├── src/
-│   └── index.ts      # App entry point
-├── dist/             # Compiled output (git-ignored)
+│   ├── index.ts          # App entry point, Express setup, MongoDB connection
+│   ├── models/
+│   │   └── Game.ts       # Mongoose schema and TypeScript interfaces
+│   ├── routes/
+│   │   └── content.ts    # Game content routes
+│   └── seed.ts           # Database seeder (The Chameleon, Herd Mentality, Sounds Fishy)
+├── dist/                 # Compiled output (git-ignored)
 ├── nodemon.json
 ├── tsconfig.json
-├── .eslintrc.json
-├── .prettierrc
-└── .env              # Git-ignored
+└── .env                  # Git-ignored
 ```
 
 ## Endpoints
 
-| Method | Path      | Description        |
-|--------|-----------|--------------------|
-| GET    | /health   | Health check       |
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/health` | Health check |
+| GET | `/api/content` | List all games with expansionCount |
+| GET | `/api/content/scan?code=` | Resolve any QR alias to a gameId |
+| GET | `/api/content/:gameId` | Full game detail (rules, scoring, sounds, expansions) |
+| GET | `/api/content/:gameId/expansions/:expansionId` | Single expansion detail |
+
+## Game Model
+
+Each game document contains:
+
+```ts
+{
+  gameId: string             // URL slug, e.g. "the-chameleon"
+  qrCodes: string[]          // All known aliases — new codes, legacy YouTube links, old domains
+  name: string
+  description: string
+  playerCount: { min, max }
+  timers: { min, max }
+  rules: string[]
+  soundEffects: [{ id, label, url }]
+  scoring: { winCondition, maxScore?, method }
+  expansions: [{ id, name, content, price?, rules?, soundEffects? }]
+}
+```
