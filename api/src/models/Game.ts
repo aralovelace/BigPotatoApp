@@ -16,13 +16,14 @@ export interface IExpansion {
   id: string;
   name: string;
   content: string;
+  price?: number;
   rules?: string[];
   soundEffects?: ISoundEffect[];
 }
 
 export interface IGame extends Document {
   gameId: string;
-  qrCode: string;
+  qrCodes: string[];
   name: string;
   description: string;
   playerCount: { min: number; max: number };
@@ -31,8 +32,6 @@ export interface IGame extends Document {
   soundEffects: ISoundEffect[];
   scoring: IScoring;
   expansions: IExpansion[];
-  version: number;
-  contentUpdatedAt: Date;
 }
 
 const soundEffectSchema = new Schema<ISoundEffect>({
@@ -45,6 +44,7 @@ const expansionSchema = new Schema<IExpansion>({
   id: { type: String, required: true },
   name: { type: String, required: true },
   content: { type: String, required: true },
+  price: { type: Number },
   rules: [{ type: String }],
   soundEffects: [soundEffectSchema],
 });
@@ -52,7 +52,7 @@ const expansionSchema = new Schema<IExpansion>({
 const gameSchema = new Schema<IGame>(
   {
     gameId: { type: String, required: true, unique: true },
-    qrCode: { type: String, required: true, unique: true },
+    qrCodes: { type: [String], required: true, index: true },
     name: { type: String, required: true },
     description: { type: String, required: true },
     playerCount: {
@@ -71,8 +71,6 @@ const gameSchema = new Schema<IGame>(
       method: { type: String, required: true },
     },
     expansions: [expansionSchema],
-    version: { type: Number, required: true, default: 1 },
-    contentUpdatedAt: { type: Date, required: true, default: Date.now },
     },
   { timestamps: true }
 );

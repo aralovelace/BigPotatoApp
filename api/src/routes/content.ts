@@ -1,12 +1,36 @@
 import { Router, Request, Response } from "express";
 import { Game } from "../models/Game";
-import { version } from "node:os";
 
 const router = Router();
 
 router.get('/', async (_req: Request, res: Response) => {
-  const games = await Game.find({}, 'gameId name description playerCount -_id').lean();
-  res.json(games);
+  const games = await Game.find({}, 'gameId name description playerCount expansions -_id').lean();
+  res.json(games.map(g => ({
+    gameId: g.gameId,
+    name: g.name,
+    description: g.description,
+    playerCount: g.playerCount,
+    expansionCount: g.expansions.length,
+  })));
+});
+
+router.get('/scan', async (req: Request, res: Response) => {
+  const code = req.query.code as string | undefined;
+  if (!code) {
+    res.status(400).json({ error: 'code is required' });
+    return;
+  }
+
+  // Normalise: strip protocol so https://youtu.be/X matches alias youtu.be/X
+  const normalised = code.replace(/^https?:\/\//, '');
+  const game = await Game.findOne({ qrCodes: { $in: [code, normalised] } }, 'gameId -_id').lean();
+
+  if (!game) {
+    res.status(404).json({ error: 'Game not found' });
+    return;
+  }
+
+  res.json({ gameId: game.gameId });
 });
 
 router.get('/:gameId', async (req: Request, res: Response) => {
@@ -22,8 +46,6 @@ router.get('/:gameId', async (req: Request, res: Response) => {
 
     res.json({
         gameId: game.gameId,
-        version: game.version,
-        contentUpdatedAt: game.contentUpdatedAt,
         name: game.name,
         description: game.description,
         playerCount: game.playerCount,
@@ -35,6 +57,7 @@ router.get('/:gameId', async (req: Request, res: Response) => {
             id: exp.id,
             name: exp.name,
             content: exp.content,
+            price: exp.price,
             rules: exp.rules,
             soundEffects: exp.soundEffects
         }))
@@ -65,6 +88,7 @@ router.get('/:gameId/expansions/:expansionId', async (req: Request, res: Respons
         id: expansion.id,
         name: expansion.name,
         content: expansion.content,
+        price: expansion.price,
         rules: expansion.rules ?? [],
         soundEffects: expansion.soundEffects ?? []
     });
