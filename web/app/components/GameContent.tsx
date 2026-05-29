@@ -57,26 +57,18 @@ export default function GameContent({ gameId }: GameContentProps) {
   }
 
   const tabs = [
-    { id: 'rules' as Tab,      label: 'Rules' },
-    { id: 'scoring' as Tab,    label: 'Scoring' },
-    { id: 'sounds' as Tab,     label: 'Sounds' },
-    { id: 'expansions' as Tab, label: `Expansions (${data.expansions.length})` },
+    { id: 'rules' as Tab,      label: 'Rules',       badge: null },
+    { id: 'scoring' as Tab,    label: 'Scoring',     badge: null },
+    { id: 'sounds' as Tab,     label: 'Sounds',      badge: null },
+    { id: 'expansions' as Tab, label: 'Expansions',  badge: data.expansions.length },
   ];
 
   return (
     <div className="w-full bg-white rounded-2xl p-5 sm:p-8 shadow-sm">
       {/* Header */}
       <div className="mb-3">
-        <div className="flex items-center gap-2 mb-1">
-          <h2 className="text-2xl sm:text-3xl">{data.name}</h2>
-          <span className="text-xs font-bold uppercase tracking-wide rounded-full bg-black text-white px-2 py-0.5 shrink-0">
-            v{data.version}
-          </span>
-        </div>
+        <h2 className="text-2xl sm:text-3xl mb-1">{data.name}</h2>
         <p className="text-base text-black/90">{data.description}</p>
-        <p className="text-xs text-black/40 mt-1">
-          Last updated {new Date(data.contentUpdatedAt).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' })}
-        </p>
       </div>
       {/* Meta pills */}
       <div className="flex gap-2 mt-3 flex-wrap">
@@ -88,19 +80,39 @@ export default function GameContent({ gameId }: GameContentProps) {
         </span>
       </div>
 
+      {/* Expansion packs highlight */}
+      {data.expansions.length > 0 && (
+        <button
+          onClick={() => setActiveTab('expansions')}
+          className="expansion-banner mt-5 w-full flex items-center justify-between rounded-xl px-4 py-3 shadow-md shadow-yellow-400/40"
+        >
+          <span className="text-sm font-bold text-black">
+            ✦ {data.expansions.length} Expansion Pack{data.expansions.length !== 1 ? 's' : ''} Available
+          </span>
+          <span className="text-sm font-bold text-black/60">View all →</span>
+        </button>
+      )}
+
       {/* Tab bar */}
       <div className="flex border-b-2 border-black/20 mt-6 mb-6 overflow-x-auto">
         {tabs.map(tab => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-3 text-sm font-bold uppercase tracking-wide border-b-2 whitespace-nowrap transition-colors h-full
+            className={`flex items-center gap-1.5 px-4 py-3 text-sm font-bold uppercase tracking-wide border-b-2 whitespace-nowrap transition-colors h-full cursor-pointer
               ${activeTab === tab.id
                 ? 'border-black text-black -mb-0.5'
                 : 'border-transparent text-black/40 hover:text-black/90'
               }`}
           >
             {tab.label}
+            {tab.badge != null && (
+              <span className={`text-xs font-bold rounded-full px-1.5 py-0.5 leading-none
+                ${activeTab === tab.id ? 'bg-black text-[#FFD700]' : 'bg-[#FFD700] text-black'}`}
+              >
+                {tab.badge}
+              </span>
+            )}
           </button>
         ))}
       </div>
@@ -150,17 +162,17 @@ export default function GameContent({ gameId }: GameContentProps) {
           {data.expansions.length === 0 ? (
             <p className="text-base text-black/60">No expansions available.</p>
           ) : (
-            data.expansions.map((exp: { id: string; name: string; content: string }) => (
+            data.expansions.map((exp: { id: string; name: string; content: string; price?: number }) => (
               <button
                 key={exp.id}
                 onClick={() => router.push(`/game/${gameId}/${exp.id}`)}
-                className="w-full text-left rounded-xl bg-white border border-black/20 p-4 hover:border-black hover:shadow-sm transition-all group min-h-[72px]"
+                className="w-full text-left rounded-xl bg-white border border-black/20 p-4 hover:border-black hover:shadow-sm transition-all group min-h-[72px] cursor-pointer"
               >
                 <div className="flex items-start justify-between gap-2">
                   <p className="text-base font-semibold text-black">{exp.name}</p>
-                  <span className="text-xs font-bold uppercase tracking-wide rounded-full bg-black text-white px-2 py-0.5 shrink-0">
-                    Expansion
-                  </span>
+                  {exp.price != null && (
+                    <span className="text-sm font-bold text-black shrink-0">£{exp.price.toFixed(2)}</span>
+                  )}
                 </div>
                 <p className="text-sm text-black/60 mt-1 line-clamp-2">{exp.content}</p>
                 <p className="text-sm font-medium text-black/40 mt-2 group-hover:text-black transition-colors">

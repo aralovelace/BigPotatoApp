@@ -71,7 +71,21 @@ export default function ExpansionDetail({ expansionId, gameId, gameName }: Expan
             Expansion
           </span>
         </div>
-        <p className="text-base text-black/90 mb-6">{data.content}</p>
+        <p className="text-base text-black/90 mb-4">{data.content}</p>
+
+        {data.price != null && (
+          <div className="flex items-center justify-between rounded-xl bg-black/5 px-4 py-3 mb-6">
+            <span className="text-lg font-bold text-black">£{data.price.toFixed(2)}</span>
+            <a
+              href="https://bigpotato.tv/store"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-full bg-black text-white text-sm font-bold px-5 py-2 hover:bg-black/80 transition-colors"
+            >
+              Buy Now
+            </a>
+          </div>
+        )}
 
         {data.rules.length > 0 && (
           <div className="mb-6">

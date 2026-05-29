@@ -13,3 +13,7 @@ h1, h2, h3 {
   font-family: 'Bebas Neue', sans-serif;
   letter-spacing: 0.02em;
 }
+
+.expansion-banner {
+  background: linear-gradient(90deg, #FFD700 0%, #FF8C00 100%);
+}
